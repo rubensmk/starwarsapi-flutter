@@ -1,17 +1,13 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:starwarsapi/screens/result.dart';
 
-class MyHome extends StatelessWidget {
-  final TextEditingController _peoplecontroller = TextEditingController();
+class MyHome extends StatefulWidget {
+  @override
+  _MyHomeState createState() => _MyHomeState();
+}
 
-  void getData(String peopleid) async {
-    http.Response response =
-        await http.get('https://swapi.dev/api/people/?search=$peopleid');
-    var data = jsonDecode(response.body);
-    print(data['results']);
-  }
+class _MyHomeState extends State<MyHome> {
+  final TextEditingController _peoplecontroller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +46,7 @@ class MyHome extends StatelessWidget {
                           filled: true,
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20.0)),
-                          hintText: 'Insira seu personagem'),
+                          hintText: 'Insert Star Wars Character'),
                       textAlign: TextAlign.center,
                       keyboardType: TextInputType.text,
                     ),
@@ -80,12 +76,12 @@ class MyHome extends StatelessWidget {
                               fontFamily: 'SW'),
                         ),
                         onPressed: () {
-                          final String peopleid = (_peoplecontroller.text);
-                          getData(peopleid);
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => ResultPage()),
+                                builder: (context) => ResultPage(
+                                      peopleid: _peoplecontroller.text,
+                                    )),
                           );
                         },
                       ),
